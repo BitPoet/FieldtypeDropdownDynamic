@@ -6,8 +6,7 @@
  * Simple Field that stores text or number selected from a dropdown list.
  * Compatible with FieldtypeText and its derivates, FieldtypeInteger and FieldtypeFloat.
  *
- * ProcessWire 2.x 
- * Copyright (C) 2015 by Chris Winter <the.bitpoet@gmail.com> 
+  * Copyright (C) 2015 by Chris Winter <the.bitpoet@gmail.com> 
  * Licensed under MIT license, see LICENSE.TXT
  * 
  * https://processwire.com
