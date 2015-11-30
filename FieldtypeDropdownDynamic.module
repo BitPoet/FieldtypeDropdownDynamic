@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * ProcessWire Dropdown Fieldtype
+ *
+ * Simple Field that stores text or number selected from a dropdown list.
+ * Compatible with FieldtypeText and its derivates, FieldtypeInteger and FieldtypeFloat.
+ *
+ * ProcessWire 2.x 
+ * Copyright (C) 2015 by Chris Winter <the.bitpoet@gmail.com> 
+ * Licensed under MIT license, see LICENSE.TXT
+ * 
+ * https://processwire.com
+ *
+ */
+
+class FieldtypeDropdownDynamic extends FieldtypeText {
+
+	protected $compatibleFieldtypes = array(
+		FieldtypeText
+	);
+
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'DropdownDynamic',
+			'version' => '0.0.8',
+			'summary' => 'Field that lets you create a dropdown list from PHP code',
+			'permanent' => true, 
+			);
+	}
+
+	/**
+	 * Return the associated Inputfield. Default to InputfieldSelect, which
+	 * is so far the norm.
+	 *
+	 */
+	public function getInputfield(Page $page, Field $field) {
+		$inputfieldClass = $field->get('inputfieldClass'); 
+		if(!$inputfieldClass) $inputfieldClass = 'InputfieldSelect';
+		$inputfield = $this->wire('modules')->get($inputfieldClass);
+		if(!$inputfield) $inputfield = $this->wire('modules')->get('InputfieldSelect'); 
+		
+		if($field->dropdownUseFile == 1) {
+			$options = include($this->config->paths->templates . $field->dropdownCode);
+		} else {
+			$options = eval($field->dropdownCode);
+		}
+		foreach( $options as $option ) {
+			if(!isset($option["attributes"])) {
+				$option["attributes"] = array();
+			}
+			if( $option["value"] == $field->value ) {
+				$inputfield->addOption($option["value"], $option["title"], array_merge($option["attributes"], array("selected")));
+			} else {
+				$inputfield->addOption($option["value"], $option["title"], $option["attributes"]);
+			}
+		}
+		return $inputfield; 
+	}
+
+	/**
+	 * Get Fieldtypes that are known compatible with this one 
+	 * 
+	 * @param Field $field
+	 * @return Fieldtypes
+	 * @throws WireException
+	 * 
+	 */
+	public function ___getCompatibleFieldtypes(Field $field) {
+		$fieldtypes = new Fieldtypes();
+		foreach($this->wire('fieldtypes') as $fieldtype) {
+			foreach($this->compatibleFieldtypes as $compatType) {
+				if($fieldtype instanceof $compatType) $fieldtypes->add($fieldtype);
+			}
+		}
+		return $fieldtypes;
+	}
+
+	/**
+	 * Return configuration fields definable for each FieldtypePage
+	 *
+	 */
+	public function ___getConfigInputfields(Field $field) {
+
+		$inputfields = parent::___getConfigInputfields($field);
+		
+		$ddCode = $this->modules->get("InputfieldTextarea"); 
+		$ddCode->attr('name', 'dropdownCode'); 
+		$ddCode->label = $this->_('Code that populates the dropdown list');
+		$ddCode->description = $this->_('Enter the php code that populates the dropdown list here. Must return an array of associative arrays with the keys "value", "title" and optionally "attributes". You can nest arrays to create optgroups.');
+		$ddCode->attr('value', $field->dropdownCode);  
+		$inputfields->append($ddCode);
+
+		$ddUseFile = $this->modules->get("InputfieldCheckbox");
+		$ddUseFile->attr('name', 'dropdownUseFile');
+		$ddUseFile->label = sprintf($this->_('Above code holds the name/path of the PHP file to include which returns the dropdown array (relative to %s). Don\'t forget to return the array.'), $this->config->paths->templates);
+		$ddUseFile->columnWidth = 50;
+		$ddUseFile->attr('checked', $field->dropdownUseFile == 1);
+		$inputfields->append($ddUseFile);
+		
+		return $inputfields;
+	}
+}
