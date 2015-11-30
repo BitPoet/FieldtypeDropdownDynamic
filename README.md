@@ -4,6 +4,10 @@ Dropdown (select) Fieldtype for the ProcessWire CMS.
 
 Note: this module is still in Beta and prone to have errors. Use at your own risks.
 
+## Requires
+
+ProcessWire 2.5 or higher
+
 ## Description
 
 Most times, a regular FieldtypeSelect is exactly what you need to populate a field

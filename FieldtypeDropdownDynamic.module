@@ -25,7 +25,8 @@ class FieldtypeDropdownDynamic extends FieldtypeText {
 			'title' => 'DropdownDynamic',
 			'version' => '0.0.8',
 			'summary' => 'Field that lets you create a dropdown list from PHP code',
-			'permanent' => true, 
+			'permanent' => true,
+			'requires' => 'InputfieldSelect'
 			);
 	}
 
