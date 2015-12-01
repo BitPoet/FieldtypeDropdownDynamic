@@ -12,14 +12,14 @@ ProcessWire 2.5 or higher
 
 Most times, a regular FieldtypeSelect is exactly what you need to populate a field
 in your ProcessWire template, even if you don't think so at first. Whenever you
-want to provide both consistency and permanency for selection options, pages
+want to provide both consistency and permanency for selection options, pages are
 the way to go, because they make the link between linking page (the page with
 the select field) and the selected page permanent. And really, database storage
 doesn't get much smoother than storing your selection list as pages.
 
 With that out of the way, there are some cases, e.g. when pulling in data from
-foreign systems or making heavy use of file system contents, where that pages
-approach may get clunky.
+foreign systems or making heavy use of file system contents and where ease of
+use comes before consistency, in which that pages-centric approach may get clunky.
 
 ## How it works
 
