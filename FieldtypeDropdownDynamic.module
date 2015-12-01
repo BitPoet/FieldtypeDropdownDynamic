@@ -9,8 +9,6 @@
  * 2015 by the.bitpoet@gmail.com 
  * Licensed under MIT license, see LICENSE.TXT
  * 
- * https://processwire.com
- *
  */
 
 class FieldtypeDropdownDynamic extends FieldtypeText {
