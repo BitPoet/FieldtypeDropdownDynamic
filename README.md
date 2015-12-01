@@ -31,8 +31,8 @@ configuration options:
 
 ### The code textarea
 
-This textarea either holds the PHP code that fills your dropdown list, which is
-just a simple InputfieldSelect. To fill it, you need to return an array holding
+This textarea holds the PHP code that fills your dropdown list, which is just
+a simple InputfieldSelect. To fill it, you need to return an array holding
 an associative array for each selection entry. Here's a very simple example:
 
 ```php
