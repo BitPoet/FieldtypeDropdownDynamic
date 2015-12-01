@@ -37,8 +37,8 @@ an associative array for each selection entry. Here's a very simple example:
 
 ```php
 return array(
-	array("title" => "First option", value => "first"),
-	array("title" => "Second option", value => "second")
+	array("label" => "First option", value => "first"),
+	array("label" => "Second option", value => "second")
 );
 ```
 
@@ -54,6 +54,31 @@ This include, of course, will also need to return() a fitting array that populat
 the dropdown.
 
 The path used there is relative your site's template path.
+
+## Tips and Tricks
+
+### Option Groups
+
+As FieldtypeDropdownDynamic uses InputfieldSelect under the hood, it also allows
+you to pass option groups to the select. The downside is that you can't pass
+attributes to your nested options.
+
+Example:
+
+```php
+return array(
+	array("label" => "first", "value" => "firstval"),
+	array("value" => "Option Group Title", "label" => array(
+		"second" => "secondval",
+		"third" => "thirdval"
+	)),
+	array("label" => "fourth", "value" => "fourthval")
+);
+```
+
+This code populates the dropdown like this:
+
+![Example Image](https://bitpoet.github.io/img/dddynexample1.png)
 
 ## License
 
