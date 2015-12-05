@@ -10,11 +10,12 @@ ProcessWire 2.5 or higher
 
 ## Description
 
-Most times, a regular FieldtypeSelect is exactly what you need to populate a field
-in your ProcessWire template, even if you don't think so at first. Whenever you
-want to provide both consistency and permanency for selection options, pages are
-the way to go, because they make the link between linking page (the page with
-the select field) and the selected page permanent. And really, database storage
+Most times when you think about using a custom select like this module provides,
+a regular FieldtypePage with an InputfieldSelect is exactly what you need to populate
+a field in your ProcessWire template, even if you don't think so at first. Whenever
+you want to provide both consistency and permanency for selection options, pages are
+the way to go, because they make the link between linking page (the page with the
+select field) and the selected page permanent. And really, database storage
 doesn't get much smoother than storing your selection list as pages.
 
 With that out of the way, there are some cases, e.g. when pulling in data from
