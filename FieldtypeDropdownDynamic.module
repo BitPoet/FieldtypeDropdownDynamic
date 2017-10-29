@@ -20,7 +20,7 @@ class FieldtypeDropdownDynamic extends FieldtypeText {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'DropdownDynamic',
-			'version' => '0.0.9',
+			'version' => '0.1.0',
 			'summary' => 'Field that lets you create a dropdown list from PHP code',
 			'requires' => 'InputfieldSelect'
 			);
@@ -88,13 +88,40 @@ class FieldtypeDropdownDynamic extends FieldtypeText {
 		$ddCode->attr('value', $field->dropdownCode);  
 		$inputfields->append($ddCode);
 
+
 		$ddUseFile = $this->modules->get("InputfieldCheckbox");
 		$ddUseFile->attr('name', 'dropdownUseFile');
-		$ddUseFile->label = sprintf($this->_('Above code holds the name/path of the PHP file to include which returns the dropdown array (relative to %s). Don\'t forget to return the array.'), $this->config->paths->templates);
+		$ddUseFile->label = sprintf($this->_('Above textarea holds the name/path of the PHP file to include which returns the dropdown array (relative to %s). Don\'t forget to return the array.'), $this->config->paths->templates);
 		$ddUseFile->columnWidth = 50;
 		$ddUseFile->attr('checked', $field->dropdownUseFile == 1);
 		$inputfields->append($ddUseFile);
 		
+		
+		$modules = $this->wire('modules');
+		$f = $this->modules->get('InputfieldSelect');
+		$f->attr('name', 'inputfieldClass');
+		$f->label = $this->_('What kind of input field should be used for input?');
+		$f->description = $this->_('Some input types provide more settings on the *Input* tab (visible after you save).'); 
+
+		foreach($modules as $module) {
+			if(strpos($module->className(), 'Inputfield') !== 0) continue;
+			if($module instanceof ModulePlaceholder) {
+				$module = $this->modules->getModule($module->className(), array('noInit' => true));
+			}
+			if($module instanceof InputfieldSelect) {
+				$name = str_replace('Inputfield', '', $module->className());
+				if($module instanceof InputfieldSelectMultiple) {
+				} else {
+					$f->addOption($module->className(), $name);
+				}
+			}
+		}
+		
+		$value = $field->get('inputfieldClass');
+		if(!$value) $value = 'InputfieldSelect';
+		$f->attr('value', $value);
+		$inputfields->add($f);
+
 		return $inputfields;
 	}
 }
